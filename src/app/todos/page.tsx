@@ -1,20 +1,9 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { fetchTodos, deleteTodo, Todo } from "../../../lib/api";
+import { revalidatePath } from "next/cache";
 
-export default function TodosPage() {
-  const [todos, setTodos] = useState<Todo[]>([]);
-
-  useEffect(() => {
-    fetchTodos().then(setTodos);
-  }, []);
-
-  async function handleDelete(id: number) {
-    await deleteTodo(id);
-    setTodos((prev) => prev.filter((t) => t.id !== id));
-  }
+export default async function TodosPage() {
+  const todos: Todo[] = await fetchTodos();
 
   const sortedTodos = [...todos].sort((a, b) => {
     if (a.status === "completed" && b.status !== "completed") return 1;
@@ -81,12 +70,21 @@ export default function TodosPage() {
               >
                 Edit
               </Link>
-              <button
-                onClick={() => handleDelete(todo.id)}
-                className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition"
+
+              <form
+                action={async () => {
+                  "use server";
+                  await deleteTodo(todo.id);
+                  revalidatePath("/todos");
+                }}
               >
-                Delete
-              </button>
+                <button
+                  type="submit"
+                  className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition"
+                >
+                  Delete
+                </button>
+              </form>
             </div>
           </div>
         ))}
