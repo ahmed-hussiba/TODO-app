@@ -1,0 +1,28 @@
+{
+  "todos": [
+    {
+      "id": "1cc7",
+      "title": "Standup",
+      "description": "Standup at 11",
+      "status": "pending"
+    },
+    {
+      "id": "db64",
+      "title": "Buy groceries",
+      "description": "Milk, bread, eggs",
+      "status": "completed"
+    },
+    {
+      "id": "fff7",
+      "title": "Call the bank",
+      "description": "Ask about new credit card",
+      "status": "completed"
+    },
+    {
+      "id": "8f91",
+      "title": "Finish Next.js project",
+      "description": "Implement CRUD features",
+      "status": "pending"
+    }
+  ]
+}
